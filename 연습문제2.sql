@@ -248,7 +248,7 @@ SELECT C.CUSTOMER_NAME AS 고객명, B.BOOK_NAME AS 책이름, O.ORDER_DATE AS �
   FROM CUSTOMER_TBL C INNER JOIN ORDER_TBL O
     ON C.CUSTOMER_ID = O.CUSTOMER_ID INNER JOIN BOOK_TBL B
     ON O.BOOK_ID = B.BOOK_ID
- WHERE O.ORDER_DATE = MAX(O.ORDER_DATE);
+ WHERE ;
 
 -- 14. 모든 서적 중에서 가장 비싼 서적을 구매한 고객의 이름과 구매내역(책이름, 가격)을 조회하시오.
 -- 가장 비싼 서적을 구매한 고객이 없다면 고객 이름은 NULL로 처리하시오.
