@@ -108,9 +108,25 @@ BEGIN
 END;
 
 -- 함수 MY_CEIL 호출
-SELECT MY_CEIL(111.111, 2)
-     , MY_CEIL(111.111, 1)
-     , MY_CEIL(111.111, 0)
-     , MY_CEIL(111.111, -1)
-     , MY_CEIL(111.111, -2)
+SELECT MY_CEIL(111.111, 2)  -- 소수2자리 올림
+     , MY_CEIL(111.111, 1)  -- 소수1자리 올림
+     , MY_CEIL(111.111, 0)  -- 정수로 올림
+     , MY_CEIL(111.111, -1) -- 일의자리 올림
+     , MY_CEIL(111.111, -2) -- 십의자리 올림
+  FROM DUAL;
+  
+
+-- MY_FLOOR 함수
+CREATE OR REPLACE FUNCTION MY_FLOOR(N NUMBER, DIGIT NUMBER)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN FLOOR(N * POWER(10, DIGIT)) / POWER(10, DIGIT);
+END;
+
+SELECT MY_FLOOR(111.111, 2)
+     , MY_FLOOR(111.111, 1)
+     , MY_FLOOR(111.111, 0)
+     , MY_FLOOR(111.111, -1)
+     , MY_FLOOR(111.111, -2)
   FROM DUAL;
