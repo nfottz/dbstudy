@@ -176,6 +176,12 @@ SELECT C.CUSTOMER_NAME AS 고객명, COUNT(*) AS 구매도서수
  WHERE C.CUSTOMER_NAME = '김연아'
  GROUP BY C.CUSTOMER_ID, C.CUSTOMER_NAME;
 
+SELECT C.CUSTOMER_NAME AS 고객명, COUNT(*) AS 구매도서수
+  FROM CUSTOMER_TBL C INNER JOIN ORDER_TBL O
+    ON C.CUSTOMER_ID = O.CUSTOMER_ID
+ WHERE C.CUSTOMER_NAME = '김연아'
+ GROUP BY C.CUSTOMER_ID, C.CUSTOMER_NAME;
+
 -- 8. 주문한 이력이 없는 고객의 이름을 조회하시오.
 -- 고객명
 -- 박세리
@@ -248,15 +254,29 @@ SELECT C.CUSTOMER_NAME AS 고객명, B.BOOK_NAME AS 책이름, O.ORDER_DATE AS �
   FROM CUSTOMER_TBL C INNER JOIN ORDER_TBL O
     ON C.CUSTOMER_ID = O.CUSTOMER_ID INNER JOIN BOOK_TBL B
     ON O.BOOK_ID = B.BOOK_ID
- WHERE ;
+ WHERE O.ORDER_DATE = (SELECT MAX(ORDER_DATE)
+                         FROM ORDER_TBL);
 
 -- 14. 모든 서적 중에서 가장 비싼 서적을 구매한 고객의 이름과 구매내역(책이름, 가격)을 조회하시오.
 -- 가장 비싼 서적을 구매한 고객이 없다면 고객 이름은 NULL로 처리하시오.
 -- 고객명  책이름       책가격
 -- NULL    골프 바이블  35000
-
+SELECT C.CUSTOMER_NAME AS 고객명, B.BOOK_NAME AS 책이름, B.PRICE AS 책가격
+  FROM CUSTOMER_TBL C LEFT OUTER JOIN ORDER_TBL O
+    ON C.CUSTOMER_ID = O.CUSTOMER_ID RIGHT OUTER JOIN BOOK_TBL B
+    ON O.BOOK_ID = B.BOOK_ID
+ WHERE PRICE = (SELECT MAX(PRICE)
+                  FROM BOOK_TBL);
 
 -- 15. 총구매액이 2~3위인 고객의 이름와 총구매액을 조회하시오.
 -- 고객명  총구매액
 -- 추신수  86000
 -- 장미란  62000
+SELECT 
+
+
+SELECT C.CUSTOMER_NAME AS 고객명, SUM(O.AMOUNT * B.PRICE)
+  FROM CUSTOMER_TBL C INNER JOIN ORDER_TBL O
+    ON C.CUSTOMER_ID = O.CUSTOMER_ID INNER JOIN BOOK_TBL B
+    ON O.BOOK_ID = O.BOOK_ID
+ WHERE SUM(O.AMOUNT * B.PRICE) IN (SELECT 
